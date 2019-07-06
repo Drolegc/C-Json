@@ -77,7 +77,7 @@ int main()
             }
             break;
             case 0:{
-                controller->ObjectsToJSON(controller->getSession());
+                controller->ObjectsToJSON();
             }
             }
         }

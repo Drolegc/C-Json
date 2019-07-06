@@ -29,8 +29,6 @@ void Controller::JSONToObjects()
     bool ok_parse = reader->parse(JSONfile, *obj);
     JSONfile.close();
 
-
-
     if (ok_parse)
     {
         std::cout << "Creating all..." << std::endl;
@@ -185,68 +183,62 @@ User *Controller::getSession()
     return this->session;
 }
 
-void Controller::ObjectsToJSON(User *user)
+void Controller::ObjectsToJSON()
 {
 
     std::ifstream read;
     std::ofstream write;
-    read.open("testJSON.json", std::ifstream::in);
-
+    read.open("testJSON.json");
 
     Json::Value JsonFile;
     Json::Reader reader;
-    //bool ok_parse = reader.parse(read,JsonFile);
 
+    //Use read.open to know if the file exists
     if (read.is_open())
     {
-        //Create a User JSON
 
-        Json::Value userJson;
+        //Iterate for each user and make it session
+
+        IIterator *it = dicUsers->getIterator();
         //Insert data into User JSON
-
-        userJson["Nickname"] = user->getNickname();
-        userJson["Password"] = user->getPassword();
-        //append a JSON object that is the record of the user
-        //Get the collections of records and the iterator
-        ICollection *records = user->getColRecord();
-        IIterator *it = records->getIterator();
-
-        //foreach record, append a Json value thats equals to the record
         while (it->hasCurrent())
         {
-            Record *record = dynamic_cast<Record *>(it->getCurrent());
-            Json::Value JsonRecord;
-            JsonRecord["points"] = record->getPoints();
-            JsonRecord["Game"] = record->getGame();
-            //Once the JsonRecord its ready, we append it to userJson
-            userJson["records"].append(JsonRecord);
+            //Create a User JSON
+            Json::Value userJson;
+            User *user = dynamic_cast<User *>(it->getCurrent());
 
+            userJson["Nickname"] = user->getNickname();
+            userJson["Password"] = user->getPassword();
+            //append a JSON object that is the record of the user
+            //Get the collections of records and the iterator
+            ICollection *records = user->getColRecord();
+            IIterator *itR = records->getIterator();
+
+            //foreach record, append a Json value thats equals to the record
+            while (itR->hasCurrent())
+            {
+                Record *record = dynamic_cast<Record *>(itR->getCurrent());
+                Json::Value JsonRecord;
+                JsonRecord["points"] = record->getPoints();
+                JsonRecord["Game"] = record->getGame();
+                //Once the JsonRecord its ready, we append it to userJson
+                userJson["records"].append(JsonRecord);
+
+                itR->next();
+            }
+            JsonFile.append(userJson);
             it->next();
         }
-
         //Json ready to upload
         //Here we need to parse to JsonFile and then delete all from the file
-        bool ok_parse = reader.parse(read, JsonFile);
-
-        if (ok_parse)
-        {
-            std::cout << "Parse ok" << std::endl;
-            read.close();
-            write.open("testJSON.json");
-        }
-        else
-        {
-            std::cout << "Parse Error" << std::endl;
-            read.close();
-            write.open("testJSON.json");
-        }
+        write.open("testJSON.json", std::ios_base::out | std::ios_base::trunc);
 
         if (write.is_open())
         {
-            JsonFile.append(userJson);
+
             Json::StyledWriter sw;
 
-            std::cout << "Uploading " << user->getNickname() << " information" << std::endl;
+            std::cout << "Uploading information" << std::endl;
             std::string f = sw.write(JsonFile);
 
             write << f;

@@ -28,7 +28,7 @@ class Controller{
     void setRecord(int points,std::string names_game);
     void showAllRecords();
     /* JSON */
-    void ObjectsToJSON(User* user);
+    void ObjectsToJSON();
     void JSONToObjects();
 
     User* getSession();
