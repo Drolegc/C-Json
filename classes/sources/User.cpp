@@ -33,7 +33,7 @@ void User::mostrarRecords(){
     std::cout<<this->nickname<<" records:"<<std::endl;
     while(it->hasCurrent()){
         Record* r = dynamic_cast<Record*>(it->getCurrent());
-        std::cout<<"*"<<r->getPoints()<<r->getGame()<<std::endl;
+        std::cout<<"*"<<r->getPoints()<<std::endl<<r->getGame()<<std::endl;
         it->next();
     }
 }

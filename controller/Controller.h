@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include <jsoncpp/json/json.h>
+
 #include "../ICollection/interfaces/ICollectible.h"
 #include "../ICollection/interfaces/ICollection.h"
 #include "../ICollection/interfaces/IDictionary.h"
@@ -23,4 +26,6 @@ class Controller{
     void SignUp();
     void setRecord(std::string names_game);
     void showAllRecords();
+    void ObjectsToJSON(User* user);
+    User* getSession();
 };

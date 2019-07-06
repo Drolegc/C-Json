@@ -32,9 +32,10 @@ controller/Controller.cpp controller/Controller.h \
 
 CC = g++
 OPCIONES = -std=c++11 -g -Wall -Werror
+JSON = -ljsoncpp
 
 main: $(OBJETOS) Main.cpp Makefile
-	$(CC) $(OPCIONES) $(OBJETOS) Main.cpp -o Main
+	$(CC) $(OPCIONES) $(OBJETOS) Main.cpp -o Main $(JSON)
 
 ICollectible.o: ICollection/interfaces/ICollectible.h ICollection/interfaces/ICollectible.cpp
 	$(CC) $(OPCIONES) -c ICollection/interfaces/ICollectible.cpp -o ICollectible.o
@@ -87,7 +88,7 @@ User.o: classes/headers/User.h classes/sources/User.cpp
 	$(CC) $(OPCIONES) -c classes/sources/User.cpp -o User.o
 
 Controller.o: controller/Controller.h controller/Controller.cpp
-	$(CC) $(OPCIONES) -c controller/Controller.cpp -o Controller.o
+	$(CC) $(OPCIONES) -c controller/Controller.cpp -o Controller.o $(JSON)
 
 clean:
 	rm -f $(OBJETOS) main
