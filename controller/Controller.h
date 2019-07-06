@@ -6,6 +6,7 @@
 #include "../ICollection/interfaces/ICollection.h"
 #include "../ICollection/interfaces/IDictionary.h"
 #include "../classes/headers/User.h"
+//#include "../classes/headers/Game.h"
 
 class Controller{
     
@@ -23,9 +24,12 @@ class Controller{
 
     void LogIn(std::string nick,std::string pass);
     void addGame(std::string game);
-    void SignUp();
-    void setRecord(std::string names_game);
+    void SignUp(std::string name,std::string pass);
+    void setRecord(int points,std::string names_game);
     void showAllRecords();
+    /* JSON */
     void ObjectsToJSON(User* user);
+    void JSONToObjects();
+
     User* getSession();
 };

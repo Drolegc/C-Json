@@ -28,6 +28,10 @@ void User::setPassword(std::string new_pass){
     this->password = new_pass;
 }
 
+void User::setRecord(ICollectible* r){
+    colRecords->add(r);
+}
+
 void User::mostrarRecords(){
     IIterator* it = colRecords->getIterator();
     std::cout<<this->nickname<<" records:"<<std::endl;

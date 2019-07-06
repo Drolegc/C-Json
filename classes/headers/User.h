@@ -9,7 +9,7 @@ class User:public ICollectible{
     private:
     std::string nickname;
     std::string password;
-    //vector of records
+    
     ICollection * colRecords;
     
     public:
@@ -21,7 +21,7 @@ class User:public ICollectible{
 
     void setNickname(std::string new_nick);
     void setPassword(std::string new_pass);
-
+    void setRecord(ICollectible* r);
     void mostrarRecords();
     ~User();
 };
